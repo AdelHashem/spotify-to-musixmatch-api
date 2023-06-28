@@ -38,7 +38,7 @@ class MXM:
                 return {"error": "The track hasn't been imported yet. Try one more time after 1-5 minutes (tried to import it using matcher call)."}
             return {"error": e}
         except Exception as e:
-            return {"error": e}
+            return {"error": str(e)}
         
     async def Tracks_Data(self, iscrcs):
         tracks = []
