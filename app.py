@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from typing import List, Dict
 from mxm import MXM
 
-mxm = MXM("1a5c1f4609e375a9784e88cb42fd084f")
+mxm = MXM()
 
 class SpIds(BaseModel):
     ids: List[str]
