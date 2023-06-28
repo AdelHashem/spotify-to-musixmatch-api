@@ -1,30 +1,23 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from typing import List, Dict
 from mxm import MXM
 
 mxm = MXM()
 
-class isrcs(BaseModel):
-    data: dict
-
 class SpIds(BaseModel):
-    data: dict
+    ids: List[str]
 
-
-class TrackItem(BaseModel):
-    track: dict
-
+class Track(BaseModel):
+    track: Dict
 
 class Tracks(BaseModel):
-    tracks: list[TrackItem]
-
-
+    tracks: List[Track]
 
 
 app = FastAPI()
 
 @app.get('/api/match_id', response_model=Tracks)
-async def matcher_tracks(data:SpIds):
-    print(data)
-    tracks = await mxm.matcher_tracks_get(data.data["ids"])
-    return {"tracks":tracks}
+async def matcher_tracks(data: SpIds):
+    tracks = await mxm.matcher_tracks_get(data.ids)
+    return Tracks(tracks=tracks)
