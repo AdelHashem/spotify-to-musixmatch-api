@@ -12,7 +12,7 @@ class Track(BaseModel):
     track: Dict
 
 class Tracks(BaseModel):
-    tracks: List[Track]
+    tracks: List[Dict]
 
 
 app = FastAPI()
