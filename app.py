@@ -24,7 +24,7 @@ class Tracks(BaseModel):
 app = FastAPI()
 
 @app.get('/api/match_id', response_model=Tracks)
-async def matcher_tracks(data:SpIds) -> Tracks:
+async def matcher_tracks(data:SpIds):
     print(data)
     tracks = await mxm.matcher_tracks_get(data.data["ids"])
     return {"tracks":tracks}
