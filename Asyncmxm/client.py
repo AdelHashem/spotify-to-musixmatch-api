@@ -68,9 +68,10 @@ class Musixmatch(object):
             try:
                 print(params)
                 async with self._session.request(method=method, url=str(url), params = params) as response:
-                
+                    print(response.text())
                     response.raise_for_status()
                     res = await response.text()
+                    print(res)
                     res = json.loads(res)
                     status_code = res["message"]["header"]["status_code"]
                     if status_code == 200:
