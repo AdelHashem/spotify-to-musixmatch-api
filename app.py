@@ -6,7 +6,7 @@ from mxm import MXM
 mxm = MXM()
 
 class SpIds(BaseModel):
-    ids: Dict
+    ids: List[str]
 
 class Track(BaseModel):
     track: Dict
