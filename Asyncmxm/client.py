@@ -46,7 +46,7 @@ class Musixmatch(object):
 
     def _build_session(self):
         connector = aiohttp.TCPConnector(limit=self.limit, limit_per_host=self.limit)
-        self._session = aiohttp.ClientSession(connector=connector)
+        self._session = aiohttp.ClientSession(connector=connector,loop=asyncio.get_event_loop())
         
     async def __aexit__(self, exc_type, exc_value, exc_tb):
         """Make sure the connection gets closed"""
