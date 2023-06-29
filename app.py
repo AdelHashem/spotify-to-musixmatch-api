@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List, Dict
 from mxm import MXM
+import asyncio
 
 mxm = MXM()
 
@@ -19,7 +20,11 @@ app = FastAPI()
 
 @app.get('/api/match_id', response_model=Tracks)
 async def matcher_tracks(data: SpIds):
-    tracks = await mxm.matcher_tracks_get(data.ids)
+    coro = [mxm.matcher_track(id) for id in data.ids]
+    tasks = [asyncio.create_task(c) for c in coro]
+    tracks = await asyncio.gather(*tasks)
+    #return tracks
+    #tracks = await mxm.matcher_tracks_get(data.ids)
     return Tracks(tracks=tracks)
 
 import uvicorn
