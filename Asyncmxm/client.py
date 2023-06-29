@@ -63,20 +63,7 @@ class Musixmatch(object):
             params = {"apikey": self._key}
 
         retries = 0
-        async with self._session.request(method=method, url=str(url), params = params) as response:
-            
-            response.raise_for_status()
-            res = await response.text()
-            print(res)
-            res = json.loads(res)
-            status_code = res["message"]["header"]["status_code"]
-            if status_code == 200:
-                return res
-            else:
-                retries = self.max_retries
-                hint = res["message"]["header"].get("hint") or None
-                raise MXMException(status_code,hint)
-        '''
+
         while retries < self.max_retries:
             try:
                 print(params)
@@ -98,7 +85,7 @@ class Musixmatch(object):
                 await asyncio.sleep(self.backoff_factor * retries)
                 continue
         raise Exception("API request failed after retries")
-         '''
+         
 
 
     async def track_get(
