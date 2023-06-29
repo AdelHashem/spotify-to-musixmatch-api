@@ -21,3 +21,10 @@ app = FastAPI()
 async def matcher_tracks(data: SpIds):
     tracks = await mxm.matcher_tracks_get(data.ids)
     return Tracks(tracks=tracks)
+
+import uvicorn
+from os import getenv
+
+if __name__ == "__main__":
+    port = int(getenv("PORT", 8000))
+    uvicorn.run("app:app", host="0.0.0.0", port=port)
