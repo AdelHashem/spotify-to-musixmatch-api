@@ -17,9 +17,8 @@ class Musixmatch(object):
     def __init__(
         self,
         API_key,
-        session = None,
         limit = 4,
-        requests_session=True,
+        requests_session=None,
         retries=max_retries,
         requests_timeout=5,
         backoff_factor=0.3,
@@ -39,7 +38,6 @@ class Musixmatch(object):
         self.backoff_factor = backoff_factor
         self.retries = retries
         self.limit = limit 
-        self._session = session
 
         if isinstance(requests_session, aiohttp.ClientSession):
             self._session = requests_session

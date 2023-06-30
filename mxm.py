@@ -11,8 +11,8 @@ class MXM:
         self.key = key or self.DEFAULT_KEY
         self.key2 = self.DEFAULT_KEY2
         self.session = session
-        self.musixmatch = Asyncmxm.Musixmatch(self.key,session=session)
-        self.musixmatch2 = Asyncmxm.Musixmatch(self.key,session=session)
+        self.musixmatch = Asyncmxm.Musixmatch(self.key,requests_session=session)
+        self.musixmatch2 = Asyncmxm.Musixmatch(self.key,requests_session=session)
         
 
 
