@@ -10,8 +10,10 @@ class MXM:
     def __init__(self, key=None, session=None):
         self.key = key or self.DEFAULT_KEY
         self.key2 = self.DEFAULT_KEY2
-        self.musixmatch = Asyncmxm.Musixmatch(self.key)
-        self.musixmatch2 = Asyncmxm.Musixmatch(self.key)
+        self.session = session
+        self.musixmatch = Asyncmxm.Musixmatch(self.key,session=session)
+        self.musixmatch2 = Asyncmxm.Musixmatch(self.key,session=session)
+        
 
 
     async def track_get(self, isrc = None, commontrack_id = None) -> dict:

@@ -17,6 +17,7 @@ class Musixmatch(object):
     def __init__(
         self,
         API_key,
+        session = None,
         limit = 4,
         requests_session=True,
         retries=max_retries,
@@ -38,6 +39,7 @@ class Musixmatch(object):
         self.backoff_factor = backoff_factor
         self.retries = retries
         self.limit = limit 
+        self._session = session
 
         if isinstance(requests_session, aiohttp.ClientSession):
             self._session = requests_session
@@ -50,9 +52,6 @@ class Musixmatch(object):
         
     async def __aexit__(self, exc_type, exc_value, exc_tb):
         """Make sure the connection gets closed"""
-        await self._session.close()
-
-    async def __del__(self):
         await self._session.close()
 
     async def _api_call(self, method, api_method, params = None):
