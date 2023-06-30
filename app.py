@@ -7,14 +7,16 @@ import aiohttp
 
 
 class StartAiohttp:
+    session = None
     def __init__(self,limit, limit_per_host) -> None:
         self.limit = limit
         self.limit_per_host = limit_per_host
         
 
     def start_session(self):
-        connector = aiohttp.TCPConnector(limit=self.limit, limit_per_host=self.limit_per_host)
-        self.session = aiohttp.ClientSession(connector=connector)
+        if self.session is None:
+            connector = aiohttp.TCPConnector(limit=self.limit, limit_per_host=self.limit_per_host)
+            self.session = aiohttp.ClientSession(connector=connector)
 
     def get_session(self):
         return self.session
@@ -51,6 +53,7 @@ class Tracks(BaseModel):
 
 @app.get('/api/match_id', response_model=Tracks)
 async def matcher_tracks(data: SpIds):
+    client.start_session()
     mxm = MXM(session=client.get_session())
     coro = [mxm.matcher_track(id) for id in data.ids]
     tasks = [asyncio.create_task(c) for c in coro]
