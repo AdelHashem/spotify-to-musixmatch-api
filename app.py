@@ -7,16 +7,14 @@ import aiohttp
 
 
 class StartAiohttp:
-    session = None
     def __init__(self,limit, limit_per_host) -> None:
         self.limit = limit
         self.limit_per_host = limit_per_host
         
 
-    def start_session(self) -> aiohttp.ClientSession:
-        if self.session is None:
-            connector = aiohttp.TCPConnector(limit=self.limit, limit_per_host=self.limit_per_host)
-            self.session = aiohttp.ClientSession(connector=connector)
+    def start_session(self):
+        connector = aiohttp.TCPConnector(limit=self.limit, limit_per_host=self.limit_per_host)
+        self.session = aiohttp.ClientSession(connector=connector)
 
     def get_session(self):
         return self.session
@@ -39,8 +37,6 @@ async def on_shutdown() -> None:
 app = FastAPI(on_startup=[on_startup],on_shutdown=[on_shutdown])
 
 
-mxm = MXM(session=client.get_session())
-
 class SpIds(BaseModel):
     ids: List[str]
 
@@ -55,6 +51,7 @@ class Tracks(BaseModel):
 
 @app.get('/api/match_id', response_model=Tracks)
 async def matcher_tracks(data: SpIds):
+    mxm = MXM(session=client.get_session())
     coro = [mxm.matcher_track(id) for id in data.ids]
     tasks = [asyncio.create_task(c) for c in coro]
     tracks = await asyncio.gather(*tasks)
